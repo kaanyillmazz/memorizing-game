@@ -57,10 +57,10 @@ function App() {
     let lastIndex;
     let lastEvent;
     const myLogic = (event, imgName, index) => {
-
-
         if (clickCount === 0) {
             event.target.classList.add("animateMe");
+            event.target.classList.add("selected");
+            setTimeout(()=>{event.target.classList.remove("selected")}, 1000);
             imgToSearch = imgName;
             lastIndex = index;
             clickCount = 1;
@@ -68,15 +68,13 @@ function App() {
             event.target.classList.add("animateMe");
             if (lastIndex === index) {
                 clickCount = 0;
-                alert("aynisini secme");
+                alert("don't choose the same one!");
                 return;
             }
             if (imgName === imgToSearch) {
                 clickCount = 0;
-                let str =imgName+"i0";
                 event.target.style="pointer-events:none"
                 lastEvent.target.style="pointer-events:none"
-                let str1 = imgName+"i1";
 
             } else {
                 clickCount = 0;

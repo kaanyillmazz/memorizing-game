@@ -21,6 +21,18 @@ img {
 .animateMe {
   transform: rotateY(180deg);
   opacity: 100;
+}
+
+.selected {
+  animation-name: myAnim;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+
+}
+
+@keyframes myAnim {
+  from{transform: scale(100%)}
+  to{transform: scale(130%)}
 
 }
 
