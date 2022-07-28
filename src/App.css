@@ -1,6 +1,8 @@
 
 .myApp {
-  border: orangered solid 0.5px;
+  border: darkred solid 0.5px;
+  width: fit-content;
+  justify-content: center;
 }
 
 .container {
@@ -51,14 +53,21 @@ img {
 }
 
 .picHolder {
-  border: orangered solid 1px;
+  border: tomato solid 1px;
   width: 70px;
   height: 70px;
+}
+
+.buttonHolder {
+  border: darkred solid 0.5px;
+  border-bottom: rgba(0,0,0,0);
 }
 
 .getDimDiv {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: fit-content;
 }
 
 

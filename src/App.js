@@ -180,9 +180,11 @@ function App() {
                  }}>
                 {compToSend}
             </div>
-            <button onClick={startGame}>start</button>
-            <button onClick={peek}>peek!</button>
-            <label>lives left: {lives}</label>
+            <div className="buttonHolder">
+                <button onClick={startGame}>start</button>
+                <button onClick={peek}>peek!</button>
+                <label>lives left: {lives}</label>
+            </div>
         </div>
 
     );
