@@ -22,6 +22,7 @@ function App() {
                    onKeyDown={event => {
                        if (event.key === "Enter") {
                            event.preventDefault();
+                           event.target.disabled = true;
                            mySetDimensions(event);
                        }
                    }}>
