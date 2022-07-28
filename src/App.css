@@ -18,8 +18,8 @@
 }
 
 img {
-  width: 12.5vmin;
-  height: 12.5vmin;
+  width: 11vmin;
+  height: 11vmin;
   transform: rotateY(0deg);
   transition: all 2s;
   opacity: 0;
@@ -59,8 +59,8 @@ img {
 
 .picHolder {
   border: tomato solid 1px;
-  width: 12.5vmin;
-  height: 12.5vmin;
+  width: 11vmin;
+  height: 11vmin;
 }
 
 .buttonHolder {
