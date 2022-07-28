@@ -145,7 +145,8 @@ function App() {
     }
 
 
-    function startGame() {
+    function startGame(event) {
+        event.target.disabled = true;
         for (let i = 0; i < idArray.length; i++) {
             document.getElementById(idArray[i]).classList.add("disabled");
         }
