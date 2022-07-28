@@ -5,6 +5,7 @@ import {decreaseLives} from "./features/lives/livesSlice";
 
 
 let idArray = [];
+
 function App() {
     const [compToSend, setCompToSend] = useState(null);
     const [dimensions, setDimensions] = useState(4);
@@ -35,21 +36,19 @@ function App() {
             return;
         }
         let myDim = event.target.value;
-        createArr(myDim);
+        createElements(myDim);
         setDimensions(myDim);
     }
 
 
-
-
     //create id's for individual img components so we can reach them by searching later
-    function idMaker (imgName){
-            let str = imgName+"i0";
+    function idMaker(imgName) {
+        let str = imgName + "i0";
         if (idArray.indexOf(str) === -1) {
             idArray.push(str);
             return str;
         } else {
-            let str1 = imgName+"i1";
+            let str1 = imgName + "i1";
             idArray.push(str1);
             return str1;
         }
@@ -59,14 +58,14 @@ function App() {
     let imgToSearch;
     let lastIndex;
     let lastEvent;
-
-
-let livesStatic = 10;
+    let livesLocal = 10;
     const myLogic = (event, imgName, index) => {
         if (clickCount === 0) {
             event.target.classList.add("animateMe");
             event.target.classList.add("selected");
-            setTimeout(()=>{event.target.classList.remove("selected")}, 1000);
+            setTimeout(() => {
+                event.target.classList.remove("selected")
+            }, 1000);
             imgToSearch = imgName;
             lastIndex = index;
             clickCount = 1;
@@ -78,78 +77,83 @@ let livesStatic = 10;
             }
             if (imgName === imgToSearch) {
                 clickCount = 0;
-                event.target.style="pointer-events:none"
-                lastEvent.target.style="pointer-events:none"
+                event.target.style = "pointer-events:none"
+                lastEvent.target.style = "pointer-events:none"
 
             } else {
-                if(livesStatic === 1) {
+                if (livesLocal === 1) {
                     alert("you lost!");
-                    for(let i = 0; i < idArray.length; i++) {
+                    for (let i = 0; i < idArray.length; i++) {
                         document.getElementById(idArray[i]).classList.add("disabled");
                     }
                 }
                 dispatch(decreaseLives());
-                livesStatic--;
-                console.log(lives);
+                livesLocal--;
                 clickCount = 0;
                 lastEvent.target.classList.remove("animateMe");
-                setTimeout((()=>{ event.target.classList.remove("animateMe");}), 1000)
+                setTimeout((() => {
+                    event.target.classList.remove("animateMe");
+                }), 1000)
             }
         }
         lastEvent = event;
     }
 
 
-    let imagesArray = new Array(64);
+    let allImages = new Array(64);
     for (let i = 0; i < 64; i++) {
-        imagesArray[i] = Math.floor(i / 2);
+        allImages[i] = Math.floor(i / 2);
         let str = "p";
-        imagesArray[i] = str + imagesArray[i];
+        allImages[i] = str + allImages[i];
     }
 
 
-    let myImgArr;
+    let imagesInGame;
 
 
-    function createArr(dimensions) {
-        myImgArr = new Array(dimensions * dimensions);
-        for (let i = 0; i < myImgArr.length; i++) {
-            myImgArr[i] = imagesArray[i];
+    function createElements(dimensions) {
+        imagesInGame = new Array(dimensions * dimensions);
+        for (let i = 0; i < imagesInGame.length; i++) {
+            imagesInGame[i] = allImages[i];
         }
-        myImgArr.sort(() => (Math.random() > .5) ? 1 : -1);
-        setCompToSend(myImgArr.map((imgName, index) => (
-            <div className="picHolder"><img className="noTouching" id={idMaker(imgName)} onClick={(event) => {
-                myLogic(event, imgName, index)
-            }} src={`/assets/images/${imgName}.png`}/></div>
+        imagesInGame.sort(() => (Math.random() > .5) ? 1 : -1);
+        setCompToSend(imagesInGame.map((imgName, index) => (
+            <div className="picHolder">
+                <img className="noTouching" id={idMaker(imgName)}
+                     onClick={(event) => { myLogic(event, imgName, index)}}
+                     src={`/assets/images/${imgName}.png`}/>
+            </div>
         )));
     }
 
-    function stringToSend() {
+    function gridAttributesString() {
         let str = `repeat(${dimensions}, minmax(0,1fr))`;
         return str;
-
     }
 
 
-
-    function startGame () {
-        for(let i = 0; i < idArray.length; i++) {
+    function startGame() {
+        for (let i = 0; i < idArray.length; i++) {
             document.getElementById(idArray[i]).classList.add("disabled");
         }
-        setTimeout( ()=>{for(let i = 0; i < idArray.length; i++) {
-                document.getElementById(idArray[i]).classList.remove("disabled");
-                document.getElementById(idArray[i]).classList.remove("noTouching");
-            }}, 5000
+        setTimeout(() => {
+                for (let i = 0; i < idArray.length; i++) {
+                    document.getElementById(idArray[i]).classList.remove("disabled");
+                    document.getElementById(idArray[i]).classList.remove("noTouching");
+                }
+            }, 5000
         );
     }
 
-    function peek () {
-        for(let i = 0; i < idArray.length; i++) {
+    function peek() {
+        for (let i = 0; i < idArray.length; i++) {
             document.getElementById(idArray[i]).classList.add("disabled");
         }
-        setTimeout( ()=>{for(let i = 0; i < idArray.length; i++) {
-                document.getElementById(idArray[i]).classList.remove("disabled");
-            }}, 1000
+        setTimeout(() => {
+                for (let i = 0; i < idArray.length; i++) {
+                    document.getElementById(idArray[i]).classList.remove("disabled");
+                }
+            }, 1000
         );
     }
 
@@ -158,7 +162,10 @@ let livesStatic = 10;
         <div className="myApp">
             {myForm}
             <div className="container"
-                 style={{gridTemplateColumns: `${stringToSend()}`, gridTemplateRows: `${stringToSend()}`}}>
+                 style={{
+                     gridTemplateColumns: `${gridAttributesString()}`,
+                     gridTemplateRows: `${gridAttributesString()}`
+                 }}>
                 {compToSend}
             </div>
             <button onClick={startGame}>start</button>
