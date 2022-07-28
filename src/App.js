@@ -143,6 +143,16 @@ let livesStatic = 10;
         );
     }
 
+    function peek () {
+        for(let i = 0; i < idArray.length; i++) {
+            document.getElementById(idArray[i]).classList.add("disabled");
+        }
+        setTimeout( ()=>{for(let i = 0; i < idArray.length; i++) {
+                document.getElementById(idArray[i]).classList.remove("disabled");
+            }}, 1000
+        );
+    }
+
 
     return (
         <div className="myApp">
@@ -152,6 +162,7 @@ let livesStatic = 10;
                 {compToSend}
             </div>
             <button onClick={startGame}>start</button>
+            <button onClick={peek}>peek!</button>
             <label>lives left: {lives}</label>
         </div>
 
