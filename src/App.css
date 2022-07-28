@@ -1,7 +1,11 @@
-
+:root {
+  display: flex;
+  justify-content: center;
+}
 .myApp {
   border: darkred solid 0.5px;
   width: fit-content;
+  display: flow;
   justify-content: center;
 }
 
@@ -10,11 +14,12 @@
   height: fit-content;
   display: grid;
   justify-content: center;
+
 }
 
 img {
-  width: 70px;
-  height: 70px;
+  width: 12.5vmin;
+  height: 12.5vmin;
   transform: rotateY(0deg);
   transition: all 2s;
   opacity: 0;
@@ -54,11 +59,14 @@ img {
 
 .picHolder {
   border: tomato solid 1px;
-  width: 70px;
-  height: 70px;
+  width: 12.5vmin;
+  height: 12.5vmin;
 }
 
 .buttonHolder {
+  display: grid;
+  justify-content: center;
+  grid-auto-flow: column;
   border: darkred solid 0.5px;
   border-bottom: rgba(0,0,0,0);
 }
