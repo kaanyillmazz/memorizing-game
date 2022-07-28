@@ -1,10 +1,15 @@
 import './App.css';
-import {useRef, useState} from "react";
+import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {decreaseLives} from "./features/lives/livesSlice";
 
+
+let idArray = [];
 function App() {
-
     const [compToSend, setCompToSend] = useState(null);
     const [dimensions, setDimensions] = useState(4);
+    const dispatch = useDispatch();
+    const lives = useSelector((state) => state.lives.livesCount);
 
     let myForm = (
         <div className="getDimDiv">
@@ -32,22 +37,20 @@ function App() {
         let myDim = event.target.value;
         createArr(myDim);
         setDimensions(myDim);
-        console.log(dimensions);
     }
 
 
-    let idArray = [];
+
+
     //create id's for individual img components so we can reach them by searching later
     function idMaker (imgName){
             let str = imgName+"i0";
         if (idArray.indexOf(str) === -1) {
-            console.log("undef");
             idArray.push(str);
             return str;
         } else {
             let str1 = imgName+"i1";
             idArray.push(str1);
-            console.log("twas here");
             return str1;
         }
     }
@@ -56,6 +59,9 @@ function App() {
     let imgToSearch;
     let lastIndex;
     let lastEvent;
+
+
+let livesStatic = 10;
     const myLogic = (event, imgName, index) => {
         if (clickCount === 0) {
             event.target.classList.add("animateMe");
@@ -67,7 +73,6 @@ function App() {
         } else if (clickCount === 1) {
             event.target.classList.add("animateMe");
             if (lastIndex === index) {
-                clickCount = 0;
                 alert("don't choose the same one!");
                 return;
             }
@@ -77,6 +82,15 @@ function App() {
                 lastEvent.target.style="pointer-events:none"
 
             } else {
+                if(livesStatic === 1) {
+                    alert("you lost!");
+                    for(let i = 0; i < idArray.length; i++) {
+                        document.getElementById(idArray[i]).classList.add("disabled");
+                    }
+                }
+                dispatch(decreaseLives());
+                livesStatic--;
+                console.log(lives);
                 clickCount = 0;
                 lastEvent.target.classList.remove("animateMe");
                 setTimeout((()=>{ event.target.classList.remove("animateMe");}), 1000)
@@ -92,7 +106,6 @@ function App() {
         let str = "p";
         imagesArray[i] = str + imagesArray[i];
     }
-    console.log(imagesArray);
 
 
     let myImgArr;
@@ -105,20 +118,31 @@ function App() {
         }
         myImgArr.sort(() => (Math.random() > .5) ? 1 : -1);
         setCompToSend(myImgArr.map((imgName, index) => (
-            <div className="picHolder"><img id={idMaker(imgName)} onClick={(event) => {
+            <div className="picHolder"><img className="noTouching" id={idMaker(imgName)} onClick={(event) => {
                 myLogic(event, imgName, index)
             }} src={`/assets/images/${imgName}.png`}/></div>
         )));
-        console.log(myImgArr);
     }
-
 
     function stringToSend() {
         let str = `repeat(${dimensions}, minmax(0,1fr))`;
-        console.log(str);
         return str;
 
     }
+
+
+
+    function startGame () {
+        for(let i = 0; i < idArray.length; i++) {
+            document.getElementById(idArray[i]).classList.add("disabled");
+        }
+        setTimeout( ()=>{for(let i = 0; i < idArray.length; i++) {
+                document.getElementById(idArray[i]).classList.remove("disabled");
+                document.getElementById(idArray[i]).classList.remove("noTouching");
+            }}, 5000
+        );
+    }
+
 
     return (
         <div className="myApp">
@@ -127,6 +151,8 @@ function App() {
                  style={{gridTemplateColumns: `${stringToSend()}`, gridTemplateRows: `${stringToSend()}`}}>
                 {compToSend}
             </div>
+            <button onClick={startGame}>start</button>
+            <label>lives left: {lives}</label>
         </div>
 
     );

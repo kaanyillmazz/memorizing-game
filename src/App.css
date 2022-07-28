@@ -30,6 +30,20 @@ img {
 
 }
 
+.disabled img {
+  pointer-events: none;
+  opacity: 100;
+}
+
+.noTouching {
+  pointer-events: none;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 100;
+}
+
 @keyframes myAnim {
   from{transform: scale(100%)}
   to{transform: scale(130%)}
