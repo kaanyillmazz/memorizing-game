@@ -6,6 +6,9 @@ import {decreaseLives} from "./features/lives/livesSlice";
 
 let idArray = [];
 
+let correctAudio = new Audio("./assets/sounds/correct.mp3");
+let victoryAudio = new Audio("./assets/sounds/victory.mp3");
+
 function App() {
     const [compToSend, setCompToSend] = useState(null);
     const [dimensions, setDimensions] = useState(4);
@@ -25,7 +28,7 @@ function App() {
             </input>
         </div>);
 
-
+    let remainingToFind;
     //set dimensions we got from user and create our array storing images
     const mySetDimensions = (event) => {
         if (event.target.value < 4) {
@@ -38,6 +41,9 @@ function App() {
         let myDim = event.target.value;
         createElements(myDim);
         setDimensions(myDim);
+
+        remainingToFind = Math.floor(myDim*myDim/2)
+
     }
 
 
@@ -59,6 +65,7 @@ function App() {
     let lastIndex;
     let lastEvent;
     let livesLocal = 10;
+
     const myLogic = (event, imgName, index) => {
         if (clickCount === 0) {
             event.target.classList.add("animateMe");
@@ -77,9 +84,14 @@ function App() {
             }
             if (imgName === imgToSearch) {
                 clickCount = 0;
+                correctAudio.play();
                 event.target.style = "pointer-events:none"
                 lastEvent.target.style = "pointer-events:none"
-
+                remainingToFind--;
+                if(remainingToFind === 0) {
+                    victoryAudio.play();
+                    alert("you won!");
+                }
             } else {
                 if (livesLocal === 1) {
                     alert("you lost!");
