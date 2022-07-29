@@ -131,8 +131,8 @@ function App() {
         }
         imagesInGame.sort(() => (Math.random() > .5) ? 1 : -1);
         setCompToSend(imagesInGame.map((imgName, index) => (
-            <div className="picHolder">
-                <img className="noTouching" id={idMaker(imgName)}
+            <div draggable="false" className="picHolder">
+                <img draggable="false" className="noTouching" id={idMaker(imgName)}
                      onClick={(event) => { myLogic(event, imgName, index)}}
                      src={`/assets/images/${imgName}.png`}/>
             </div>
@@ -173,9 +173,9 @@ function App() {
 
 
     return (
-        <div className="myApp">
+        <div draggable="false" className="myApp">
             {myForm}
-            <div className="container"
+            <div draggable="false" className="container"
                  style={{
                      gridTemplateColumns: `${gridAttributesString()}`,
                      gridTemplateRows: `${gridAttributesString()}`
