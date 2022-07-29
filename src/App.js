@@ -17,7 +17,7 @@ function App() {
 
     let myForm = (
         <div className="getDimDiv">
-            <label htmlFor="input">Enter Dimensions between 4 and 8:</label>
+            <label htmlFor="input">Enter Dimensions between 4 and 8, press enter</label>
             <input type="number"
                    onKeyDown={event => {
                        if (event.key === "Enter") {
